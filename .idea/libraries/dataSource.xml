@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="dataSource">
+    <CLASSES>
+      <root url="jar://D:/tools/jar/dataSource/commons-pool-1.6.jar!/" />
+      <root url="jar://D:/tools/jar/dataSource/commons-dbcp-20030825.184428.jar!/" />
+      <root url="jar://D:/tools/jar/dataSource/commons-collections-3.2.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
