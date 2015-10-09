@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import javax.print.DocFlavor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.transform.OutputKeys;
+
+import java.util.Date;
 import java.util.List;
 
 
@@ -89,6 +89,7 @@ public class UserController {
         System.out.println("testMethod");
         return "ok";
     }
+
     /**
      * init页面
      */
@@ -97,14 +98,16 @@ public class UserController {
         System.out.println("init");
         return "init";
     }
+
     /**
      * testParamsAndHeaders
      */
-    @RequestMapping(value = "/testParamsAndHeaders",params = {"username","age!=10"})
+    @RequestMapping(value = "/testParamsAndHeaders", params = {"username", "age!=10"})
     public String testParamsAndHeaders() {
         System.out.println("testParamsAndHeaders");
         return "ok";
     }
+
     /**
      * testParamsAndHeaders
      */
@@ -113,17 +116,19 @@ public class UserController {
         System.out.println("testAntPath");
         return "ok";
     }
+
     /**
      * testPathVariable
      */
     @RequestMapping(value = "/testPathVariable/{id}")
     public String testPathVariable(@PathVariable("id") Integer id) {
-        System.out.println("testPathVariable"+id);
+        System.out.println("testPathVariable" + id);
         return "ok";
     }
+
     /**
      * testRest get
-     *
+     * <p/>
      * Rest 风格的URL。
      * 以CRUD为例：
      * 新增：/order POST
@@ -134,43 +139,61 @@ public class UserController {
      * 1. 需要配置HiddenHttpMethodFilter
      * 2.需要发送POST请求
      * 3.需要发送POST请求是需要携带一个"name=_method"的隐藏域，值为DELETE或PUT
-     *
+     * <p/>
      * 在springMVC的目标方法中如何得到id呢
      * 使用@PathVariable注解
      */
-    @RequestMapping(value = "/testRest/{id}" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/testRest/{id}", method = RequestMethod.GET)
     public String testRest(@PathVariable("id") Integer id) {
-        System.out.println("testRest Get:"+id);
+        System.out.println("testRest Get:" + id);
         return "ok";
     }
+
     /**
      * testRest post
      */
-    @RequestMapping(value = "/testRest",method = RequestMethod.POST)
+    @RequestMapping(value = "/testRest", method = RequestMethod.POST)
     public String testRest() {
         System.out.println("testRest Post");
         return "ok";
     }
+
     /**
      * testRest delete
      */
-    @RequestMapping(value = "/testRest/{id}" ,method = RequestMethod.DELETE)
+    @RequestMapping(value = "/testRest/{id}", method = RequestMethod.DELETE)
     public String testRestDelete(@PathVariable("id") Integer id) {
-        System.out.println("testRest Delete"+id);
+        System.out.println("testRest Delete" + id);
         return "ok";
     }
+
     /**
      * testRest put
-     *
      */
-    @RequestMapping(value = "/testRest/{id}" ,method = RequestMethod.PUT)
+    @RequestMapping(value = "/testRest/{id}", method = RequestMethod.PUT)
     public String testRestPut(@PathVariable("id") Integer id) {
-        System.out.println("testRest Put"+id);
+        System.out.println("testRest Put" + id);
         return "ok";
     }
+
     @RequestMapping(value = "/testRequestParam")
-    public String testRequestParam(@RequestParam(value = "username") String username,@RequestParam(value = "age",required = false,defaultValue = "0")Integer age){
-        System.out.println(username+"  "+age);
+    public String testRequestParam(@RequestParam(value = "username") String username, @RequestParam(value = "age", required = false, defaultValue = "0") Integer age) {
+        System.out.println(username + "  " + age);
         return "ok";
+    }
+
+    /**
+     * 目标方法的返回值可以是ModelAndView类型
+     * 其中可以包含视图和模型信息
+     * SpringMVC会把ModelAndView的model中的数据放入request域对象中。
+     * @return
+     */
+    @RequestMapping("/testModelAndView")
+    public ModelAndView testModelAndView() {
+        String viewName = "ok";
+       ModelAndView modelAndView = new ModelAndView(viewName);
+        //添加模型数据到modelAndView中
+        modelAndView.addObject("time",new Date());
+        return modelAndView;
     }
 }

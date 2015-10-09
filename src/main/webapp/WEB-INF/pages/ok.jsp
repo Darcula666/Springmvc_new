@@ -12,5 +12,6 @@
 </head>
 <body>
  ok
+time:${requestScope.get("time")}
 </body>
 </html>

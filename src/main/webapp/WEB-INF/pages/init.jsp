@@ -11,7 +11,7 @@
     <title>init</title>
 </head>
 <body>
-
+<a href="/user/testModelAndView">testModelAndView</a><br>
 <br>
 <a href="/user/testRest/1">Test Rest Get</a>
 <br>
