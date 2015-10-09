@@ -40,5 +40,7 @@
 <form action="/user/testMethod" method="post">
     <input type="submit" value="sub">
 </form>
+<br>
+<a href="/user/testRequestParam?username=xiaobu&age=11">testRequestParam</a><br>
 </body>
 </html>

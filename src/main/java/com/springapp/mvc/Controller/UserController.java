@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import javax.print.DocFlavor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.transform.OutputKeys;
 import java.util.List;
 
 
@@ -122,6 +123,20 @@ public class UserController {
     }
     /**
      * testRest get
+     *
+     * Rest 风格的URL。
+     * 以CRUD为例：
+     * 新增：/order POST
+     * 修改：/order PUT   update?id=1
+     * 获取：/order GET   get?id=1
+     * 删除：/order DELETE   delete?id=1
+     * 如何发送PUT和DELETE请求？
+     * 1. 需要配置HiddenHttpMethodFilter
+     * 2.需要发送POST请求
+     * 3.需要发送POST请求是需要携带一个"name=_method"的隐藏域，值为DELETE或PUT
+     *
+     * 在springMVC的目标方法中如何得到id呢
+     * 使用@PathVariable注解
      */
     @RequestMapping(value = "/testRest/{id}" ,method = RequestMethod.GET)
     public String testRest(@PathVariable("id") Integer id) {
@@ -151,6 +166,11 @@ public class UserController {
     @RequestMapping(value = "/testRest/{id}" ,method = RequestMethod.PUT)
     public String testRestPut(@PathVariable("id") Integer id) {
         System.out.println("testRest Put"+id);
+        return "ok";
+    }
+    @RequestMapping(value = "/testRequestParam")
+    public String testRequestParam(@RequestParam(value = "username") String username,@RequestParam(value = "age",required = false,defaultValue = "0")Integer age){
+        System.out.println(username+"  "+age);
         return "ok";
     }
 }
