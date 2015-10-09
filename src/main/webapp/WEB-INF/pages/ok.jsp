@@ -13,5 +13,7 @@
 <body>
  ok
 time:${requestScope.get("time")}
+<br><br>
+names:${requestScope.names}
 </body>
 </html>

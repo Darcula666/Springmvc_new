@@ -14,8 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.lang.reflect.MalformedParameterizedTypeException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -195,5 +198,12 @@ public class UserController {
         //添加模型数据到modelAndView中
         modelAndView.addObject("time",new Date());
         return modelAndView;
+    }
+
+    @RequestMapping("/testMap")
+    public String testMap(Map<String,Object> map) {
+       map.put("names", Arrays.asList("tom","jock"));
+
+        return "ok";
     }
 }
