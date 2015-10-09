@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
@@ -27,50 +28,87 @@ public class UserController {
 
 
     @RequestMapping("/add")
-    public String addUser(User user ,HttpServletRequest request , HttpServletResponse response){
+    public String addUser(User user, HttpServletRequest request, HttpServletResponse response) {
         userManager.add(user);
         System.out.println("添加用户成功");
         return "forward:/user/list";
 
     }
+
     @RequestMapping("/list")
-    public String listUser(User user ,HttpServletRequest request , HttpServletResponse response){
-        List list= userManager.getList();
-        request.setAttribute("message",list);
+    public String listUser(User user, HttpServletRequest request, HttpServletResponse response) {
+        List list = userManager.getList();
+        request.setAttribute("message", list);
         System.out.println("查询用户成功");
         return "/success";
 
     }
+
     @RequestMapping("/del")
-    public String del(HttpServletRequest request , HttpServletResponse response,@RequestParam("delid")String sid){
-       boolean s= userManager.del(sid);
-       if(s){
-           System.out.println("删除用户成功");
-           return "forward:/user/list";
-       }
+    public String del(HttpServletRequest request, HttpServletResponse response, @RequestParam("delid") String sid) {
+        boolean s = userManager.del(sid);
+        if (s) {
+            System.out.println("删除用户成功");
+            return "forward:/user/list";
+        }
         System.out.println("删除用户失败");
         return "/add";
     }
+
     @RequestMapping("/getUser")
-    public String  getUser(HttpServletRequest request , HttpServletResponse response,@RequestParam("getid")String sid){
-        User user= userManager.getUser(sid);
-        request.setAttribute("user",user);
+    public String getUser(HttpServletRequest request, HttpServletResponse response, @RequestParam("getid") String sid) {
+        User user = userManager.getUser(sid);
+        request.setAttribute("user", user);
         return "forward:/user/edit";
     }
+
     @RequestMapping("/edit")
-    public String  edit(HttpServletRequest request , HttpServletResponse response){
-        User  user=(User)request.getAttribute("user");
-        request.setAttribute("user",user);
+    public String edit(HttpServletRequest request, HttpServletResponse response) {
+        User user = (User) request.getAttribute("user");
+        request.setAttribute("user", user);
         return "/add";
     }
+
     @RequestMapping("/update")
-    public String  update(HttpServletRequest request , HttpServletResponse response,User user){
-       boolean ss= userManager.updateUser(user);
-        if(ss){
+    public String update(HttpServletRequest request, HttpServletResponse response, User user) {
+        boolean ss = userManager.updateUser(user);
+        if (ss) {
             return "forward:/user/list";
         }
 
         return "forward:/user/list";
     }
 
+    /**
+     * 常用：使用method属性来指定请求方式
+     */
+    @RequestMapping(value = "/testMethod", method = RequestMethod.POST)
+    public String testMethod() {
+        System.out.println("testMethod");
+        return "ok";
+    }
+    /**
+     * init页面
+     */
+    @RequestMapping(value = "/init")
+    public String init() {
+        System.out.println("init");
+        return "init";
+    }
+    /**
+     * testParamsAndHeaders
+     */
+    @RequestMapping(value = "/testParamsAndHeaders",params = {"username","age!=10"})
+    public String testParamsAndHeaders() {
+        System.out.println("testParamsAndHeaders");
+        return "ok";
+    }
+    /**
+     * testParamsAndHeaders
+     */
+    @RequestMapping(value = "/testAntPath/*/abc")
+    public String testAntPath() {
+        System.out.println("testAntPath");
+        return "ok";
+    }
 }
