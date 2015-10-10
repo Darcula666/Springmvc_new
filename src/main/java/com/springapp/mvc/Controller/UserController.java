@@ -5,16 +5,12 @@ import com.springapp.mvc.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +20,7 @@ import java.util.Map;
 /**
  * Created by Administrator on 2015/5/8.
  */
+@SessionAttributes(value = {"user"},types = {String.class})
 @Controller
 @RequestMapping("/user")
 @Transactional
@@ -189,21 +186,33 @@ public class UserController {
      * 目标方法的返回值可以是ModelAndView类型
      * 其中可以包含视图和模型信息
      * SpringMVC会把ModelAndView的model中的数据放入request域对象中。
+     *
      * @return
      */
     @RequestMapping("/testModelAndView")
     public ModelAndView testModelAndView() {
         String viewName = "ok";
-       ModelAndView modelAndView = new ModelAndView(viewName);
+        ModelAndView modelAndView = new ModelAndView(viewName);
         //添加模型数据到modelAndView中
-        modelAndView.addObject("time",new Date());
+        modelAndView.addObject("time", new Date());
         return modelAndView;
     }
 
     @RequestMapping("/testMap")
-    public String testMap(Map<String,Object> map) {
-       map.put("names", Arrays.asList("tom","jock"));
+    public String testMap(Map<String, Object> map) {
+        map.put("names", Arrays.asList("tom", "jock"));
 
+        return "ok";
+    }
+
+    @RequestMapping("/testSessionAttributes")
+    public String testSessionAttributes(Map<String ,Object> map) {
+        User user = new User();
+        user.setId("45");
+        user.setUsername("xiaotian");
+        user.setPassword("4564");
+        map.put("user" ,user);
+        map.put("school","kmxy");
         return "ok";
     }
 }

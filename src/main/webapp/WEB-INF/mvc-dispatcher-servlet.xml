@@ -16,6 +16,7 @@
         <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
-
-
+<!--配置直接转发的页面-->
+    <!--可以直接相应转发的页面，而无需再经过handler的方法-->
+<mvc:view-controller path="/init" view-name="init"></mvc:view-controller>
 </beans>
