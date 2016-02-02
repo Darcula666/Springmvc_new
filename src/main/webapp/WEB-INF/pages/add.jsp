@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c"
            uri="http://java.sun.com/jsp/jstl/core" %>
-<script type="text/javascript" src="../../js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="../../plugin/bootstrap-3.3.5/jquery-1.11.1.js"></script>
 <script type="text/javascript">
     function edit(){
         document.myform.action = "/user/update";
