@@ -23,7 +23,7 @@
 <mvc:view-controller path="/init" view-name="init"></mvc:view-controller>
 
     <!--注册拦截器-->
-    <mvc:interceptors>
-        <bean class="com.springapp.mvc.interceptor.TestIntercepter"></bean>
-    </mvc:interceptors>
+   <!-- <mvc:interceptors>
+            <bean class="com.springapp.mvc.interceptor.TestIntercepter"></bean>
+    </mvc:interceptors>-->
 </beans>

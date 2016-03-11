@@ -30,6 +30,8 @@
           <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/aopalliance.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/antlr-2.7.7.jar" />
           <element id="library" level="project" name="lib" />
+          <element id="library" level="project" name="fastjson-1.2.5" />
+          <element id="library" level="project" name="org.codehaus.jackson:jackson-mapper-asl:1.5.5" />
         </element>
       </element>
     </root>

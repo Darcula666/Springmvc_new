@@ -1,5 +1,8 @@
 package com.springapp.mvc.Controller;
 
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.springapp.mvc.entity.User;
 import com.springapp.mvc.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -29,32 +34,58 @@ public class UserController {
     private UserManager userManager;
 
 
-    @RequestMapping("/add")
-    public String addUser(User user, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping("/save")
+    public String saveUser(User user, HttpServletRequest request, HttpServletResponse response) {
         userManager.add(user);
         System.out.println("添加用户成功");
-        return "forward:/user/list";
+        return "forward:/user/golist";
+
+    }
+
+    @RequestMapping("/add")
+    public String add(User user, HttpServletRequest request, HttpServletResponse response) {
+
+        return "add";
 
     }
 
     @RequestMapping("/list")
-    public String listUser(User user, HttpServletRequest request, HttpServletResponse response) {
+    public void listUser(User user, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application");
         List list = userManager.getList();
-        request.setAttribute("message", list);
-        System.out.println("查询用户成功");
-        return "/success";
+        request.setAttribute("message", JSON.toJSONString(list));
+        PrintWriter pw = response.getWriter();
+        pw.print(JSON.toJSONString(list));
+        pw.flush();
+        pw.close();
 
     }
 
+    @RequestMapping("/golist")
+    public String golist(User user, HttpServletRequest request, HttpServletResponse response) {
+
+        return "success";
+
+    }
     @RequestMapping("/del")
-    public String del(HttpServletRequest request, HttpServletResponse response, @RequestParam("delid") String sid) {
-        boolean s = userManager.del(sid);
-        if (s) {
-            System.out.println("删除用户成功");
-            return "forward:/user/list";
+    public String del(HttpServletRequest request, HttpServletResponse response, @RequestParam("delid") String sid) throws IOException {
+        String ids = request.getParameter("delid");
+        String idss[] = ids.split(",");
+        if (idss.length > 0) for (int i = 0; i < idss.length; i++) {
+            boolean s = userManager.del(idss[i]);
+            if (s) {
+                PrintWriter pw = response.getWriter();
+                pw.print("删除成功");
+                pw.flush();
+                pw.close();
+            } else {
+                PrintWriter pw = response.getWriter();
+                pw.print("删除失败");
+                pw.flush();
+                pw.close();
+            }
         }
-        System.out.println("删除用户失败");
-        return "/add";
+        return "forward:/user/golist";
     }
 
     @RequestMapping("/getUser")
@@ -65,10 +96,18 @@ public class UserController {
     }
 
     @RequestMapping("/edit")
-    public String edit(HttpServletRequest request, HttpServletResponse response) {
-        User user = (User) request.getAttribute("user");
-        request.setAttribute("user", user);
-        return "/add";
+    @ResponseBody
+    public User edit(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String sid = request.getParameter("sid");
+        User user = userManager.getUser(sid);
+       /* JSONObject jsonObject = new JSONObject();
+
+        PrintWriter pw = response.getWriter();
+        pw.print(jsonObject.toJSONString(user));
+        pw.flush();
+        pw.close();*/
+
+       return user;
     }
 
     @RequestMapping("/update")
